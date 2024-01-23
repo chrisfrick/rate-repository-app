@@ -1,12 +1,13 @@
 import { StyleSheet, View } from 'react-native';
-import Text from './Text';
 import RepositoryList from './RepositoryList';
 import AppBar from './AppBar';
+import theme from '../theme';
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     flexShrink: 1,
+    backgroundColor: theme.colors.greyBackground,
   },
 });
 
@@ -15,10 +16,6 @@ const Main = () => {
     <View style={styles.container}>
       <AppBar />
       <RepositoryList />
-      <Text fontWeight="bold" fontSize="subheading">
-        Bold subheading
-      </Text>
-      <Text color="textSecondary">Text with secondary color</Text>
     </View>
   );
 };
