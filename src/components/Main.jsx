@@ -3,7 +3,7 @@ import { Text, StyleSheet, View } from "react-native";
 import RepositoryList from "./RepositoryList";
 
 const styles = StyleSheet.create({
-  constiner: {
+  container: {
     marginTop: Constants.statusBarHeight,
     flexGrow: 1,
     flexShrink: 1,
