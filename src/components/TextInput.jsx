@@ -1,20 +1,23 @@
-/* eslint-disable no-unused-vars */
 import { TextInput as NativeTextInput, StyleSheet } from 'react-native';
+import theme from '../theme';
 
 const styles = StyleSheet.create({
   input: {
     height: 40,
-    margin: 12,
+    marginTop: 12,
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
   },
+  redBorder: {
+    borderColor: theme.colors.error,
+  },
 });
 
 const TextInput = ({ style, error, ...props }) => {
-  const textInputStyle = [style];
+  const textInputStyle = [style, styles.input, error && styles.redBorder];
 
-  return <NativeTextInput style={(textInputStyle, styles.input)} {...props} />;
+  return <NativeTextInput style={textInputStyle} {...props} />;
 };
 
 export default TextInput;
