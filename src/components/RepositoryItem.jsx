@@ -18,6 +18,7 @@ const cardHeaderStyles = StyleSheet.create({
   },
   infoContainer: {
     flexGrow: 1,
+    flexShrink: 1,
   },
   languageTag: {
     backgroundColor: theme.colors.primary,
