@@ -62,13 +62,16 @@ const repositoryStatsStyles = StyleSheet.create({
   },
 });
 
+export const numberToStatDisplayFigure = (number) =>
+  Number(number) >= 1000
+    ? `${Math.round((Number(number) / 1000) * 10) / 10}k`
+    : number;
+
 const StatItem = ({ number, label }) => {
   return (
     <View>
       <Text style={{ textAlign: 'center', marginTop: 15 }} fontWeight="bold">
-        {Number(number) >= 1000
-          ? `${Math.round((Number(number) / 1000) * 10) / 10}k`
-          : number}
+        {numberToStatDisplayFigure(number)}
       </Text>
       <Text style={{ textAlign: 'center', marginTop: 5 }} color="textSecondary">
         {label}
@@ -97,7 +100,7 @@ const cardStyles = StyleSheet.create({
 
 const RepositoryItem = ({ repository }) => {
   return (
-    <View style={cardStyles.repositoryItemContainer}>
+    <View style={cardStyles.repositoryItemContainer} testID="repositoryItem">
       <CardHeader
         ownerAvatarUrl={repository.ownerAvatarUrl}
         fullName={repository.fullName}
