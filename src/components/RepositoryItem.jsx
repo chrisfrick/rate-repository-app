@@ -2,6 +2,9 @@ import { View, StyleSheet, Image } from 'react-native';
 import Text from './Text';
 import theme from '../theme';
 
+import Button from './Button';
+import * as Linking from 'expo-linking';
+
 const cardHeaderStyles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -98,7 +101,7 @@ const cardStyles = StyleSheet.create({
   },
 });
 
-const RepositoryItem = ({ repository }) => {
+const RepositoryItem = ({ repository, showOpenButton }) => {
   return (
     <View style={cardStyles.repositoryItemContainer} testID="repositoryItem">
       <CardHeader
@@ -113,6 +116,12 @@ const RepositoryItem = ({ repository }) => {
         reviews={repository.reviewCount}
         rating={repository.ratingAverage}
       />
+      {showOpenButton ? (
+        <Button
+          text="Open in Github"
+          onPress={() => Linking.openURL(repository.url)}
+        ></Button>
+      ) : null}
     </View>
   );
 };
