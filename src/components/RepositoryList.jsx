@@ -10,8 +10,9 @@ import {
   Modal,
   PaperProvider,
   Portal,
+  Searchbar,
 } from 'react-native-paper';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Text from './Text';
 
 const styles = StyleSheet.create({
@@ -26,6 +27,11 @@ const styles = StyleSheet.create({
   },
   menu: {
     backgroundColor: 'white',
+    margin: 15,
+  },
+  searchStyle: {
+    backgroundColor: 'white',
+    borderRadius: 5,
     margin: 15,
   },
 });
@@ -103,6 +109,8 @@ export const RepositoryListContainer = ({
   repositories,
   setSortOrder,
   sortOrder,
+  searchQuery,
+  setSearchQuery,
 }) => {
   const navigate = useNavigate();
 
@@ -115,9 +123,17 @@ export const RepositoryListContainer = ({
       <FlatList
         data={repositoryNodes}
         ItemSeparatorComponent={ItemSeparator}
-        ListHeaderComponent={() => (
-          <ListSortSelect setSortOrder={setSortOrder} sortOrder={sortOrder} />
-        )}
+        ListHeaderComponent={
+          <>
+            <Searchbar
+              placeholder="Search"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              style={styles.searchStyle}
+            />
+            <ListSortSelect setSortOrder={setSortOrder} sortOrder={sortOrder} />
+          </>
+        }
         renderItem={({ item }) => {
           return (
             <Pressable onPress={() => navigate(`/${item.id}`)}>
@@ -132,13 +148,16 @@ export const RepositoryListContainer = ({
 
 const RepositoryList = () => {
   const [sortOrder, setSortOrder] = useState('LATEST');
-  const { repositories } = useRepositories(sortOrder);
+  const [searchQuery, setSearchQuery] = useState('');
+  const { repositories } = useRepositories(sortOrder, searchQuery);
 
   return (
     <RepositoryListContainer
       repositories={repositories}
       sortOrder={sortOrder}
       setSortOrder={setSortOrder}
+      searchQuery={searchQuery}
+      setSearchQuery={setSearchQuery}
     />
   );
 };

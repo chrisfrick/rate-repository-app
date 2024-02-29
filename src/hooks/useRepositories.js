@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { GET_REPOSITORIES } from '../graphql/queries';
 
-const useRepositories = (sortOrder) => {
+const useRepositories = (sortOrder, searchQuery) => {
   let orderBy;
   let orderDirection;
 
@@ -20,11 +20,14 @@ const useRepositories = (sortOrder) => {
       break;
   }
 
+  console.log(searchQuery);
+
   // eslint-disable-next-line no-unused-vars
   const { data, error, loading } = useQuery(GET_REPOSITORIES, {
     variables: {
       orderBy,
       orderDirection,
+      searchKeyword: searchQuery,
     },
     fetchPolicy: 'cache-and-network',
   });
