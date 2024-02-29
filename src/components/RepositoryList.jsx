@@ -14,6 +14,7 @@ import {
 } from 'react-native-paper';
 import { useEffect, useState } from 'react';
 import Text from './Text';
+import { useDebounce } from 'use-debounce';
 
 const styles = StyleSheet.create({
   sortStyle: {
@@ -149,7 +150,8 @@ export const RepositoryListContainer = ({
 const RepositoryList = () => {
   const [sortOrder, setSortOrder] = useState('LATEST');
   const [searchQuery, setSearchQuery] = useState('');
-  const { repositories } = useRepositories(sortOrder, searchQuery);
+  const [searchKeyword] = useDebounce(searchQuery, 500);
+  const { repositories } = useRepositories(sortOrder, searchKeyword);
 
   return (
     <RepositoryListContainer
