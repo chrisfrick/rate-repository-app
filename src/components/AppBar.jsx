@@ -33,6 +33,7 @@ const AppBarTab = ({ to, text, onPress }) => {
 
 const AppBar = () => {
   const { currentUser } = useCurrentUser();
+  console.log(currentUser);
   const authStorage = useAuthStorage();
   const apolloClient = useApolloClient();
 
@@ -48,6 +49,7 @@ const AppBar = () => {
         {currentUser ? (
           <>
             <AppBarTab to="/create-review" text="Create a review" />
+            <AppBarTab to="/my-reviews" text="My reviews" />
             <AppBarTab to="/" text="Sign out" onPress={handleSignOut} />
           </>
         ) : (

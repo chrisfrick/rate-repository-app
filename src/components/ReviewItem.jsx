@@ -33,8 +33,9 @@ const reviewStyles = StyleSheet.create({
   },
 });
 
-const ReviewItem = ({ review }) => {
-  const username = review.node.user.username;
+const ReviewItem = ({ review, isHeaderRepoName }) => {
+  const username = review.node.user?.username;
+  const repositoryName = review.node.repository?.name;
   const { text, rating, createdAt } = review.node;
   return (
     <View style={reviewStyles.reviewItemContainer}>
@@ -44,7 +45,9 @@ const ReviewItem = ({ review }) => {
         </Text>
       </View>
       <View style={reviewStyles.reviewTextContainer}>
-        <Text fontWeight="bold">{username}</Text>
+        <Text fontWeight="bold">
+          {isHeaderRepoName ? repositoryName : username}
+        </Text>
         <Text color="textSecondary">
           {format(toDate(createdAt), 'MMM dd, yyyy')}
         </Text>
