@@ -4,18 +4,23 @@ import ItemSeparator from './ItemSeparator';
 import useCurrentUser from '../hooks/useCurrentUser';
 
 const UserReviews = () => {
-  const { currentUser } = useCurrentUser(true);
+  const { currentUser, refetch } = useCurrentUser(true);
   console.log(currentUser);
-  return (
+  return currentUser ? (
     <FlatList
       data={currentUser.reviews.edges}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => (
-        <ReviewItem review={item} isHeaderRepoName={true} />
+        <ReviewItem
+          review={item}
+          isHeaderRepoName={true}
+          showActionButtons={true}
+          refetch={refetch}
+        />
       )}
       keyExtractor={({ id }) => id}
     ></FlatList>
-  );
+  ) : null;
 };
 
 export default UserReviews;
