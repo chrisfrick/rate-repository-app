@@ -108,6 +108,7 @@ const ListSortSelect = ({ setSortOrder, sortOrder }) => {
 
 export const RepositoryListContainer = ({
   repositories,
+  onEndReach,
   setSortOrder,
   sortOrder,
   searchQuery,
@@ -142,6 +143,8 @@ export const RepositoryListContainer = ({
             </Pressable>
           );
         }}
+        onEndReached={onEndReach}
+        onEndReachedThreshold={0.5}
       />
     </PaperProvider>
   );
@@ -151,11 +154,19 @@ const RepositoryList = () => {
   const [sortOrder, setSortOrder] = useState('LATEST');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchKeyword] = useDebounce(searchQuery, 500);
-  const { repositories } = useRepositories(sortOrder, searchKeyword);
+  const { repositories, fetchMore } = useRepositories({
+    first: 5,
+    sortOrder,
+    searchKeyword,
+  });
 
+  const onEndReach = () => {
+    fetchMore();
+  };
   return (
     <RepositoryListContainer
       repositories={repositories}
+      onEndReach={onEndReach}
       sortOrder={sortOrder}
       setSortOrder={setSortOrder}
       searchQuery={searchQuery}

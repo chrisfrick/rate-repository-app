@@ -1,9 +1,11 @@
 import { useQuery } from '@apollo/client';
 import { GET_REPOSITORIES } from '../graphql/queries';
 
-const useRepositories = (sortOrder, searchKeyword) => {
+const useRepositories = (variables) => {
   let orderBy;
   let orderDirection;
+  const sortOrder = variables.sortOrder;
+  const searchKeyword = variables.searchKeyword;
 
   switch (sortOrder) {
     case 'HIGHEST_RATED':
@@ -21,18 +23,42 @@ const useRepositories = (sortOrder, searchKeyword) => {
   }
 
   // eslint-disable-next-line no-unused-vars
-  const { data, error, loading } = useQuery(GET_REPOSITORIES, {
+  const { data, loading, fetchMore, ...result } = useQuery(GET_REPOSITORIES, {
     variables: {
       orderBy,
       orderDirection,
       searchKeyword,
+      first: variables.first,
     },
     fetchPolicy: 'cache-and-network',
   });
 
+  const handleFetchMore = () => {
+    const canFetchMore = !loading && data?.repositories.pageInfo.hasNextPage;
+
+    if (!canFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        first: variables.first,
+        after: data.repositories.pageInfo.endCursor,
+        orderBy,
+        orderDirection,
+        searchKeyword,
+      },
+    });
+  };
+
   const repositories = loading ? undefined : data.repositories;
 
-  return { repositories, loading };
+  return {
+    repositories,
+    fetchMore: handleFetchMore,
+    loading,
+    ...result,
+  };
 };
 
 export default useRepositories;
