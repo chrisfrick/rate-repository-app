@@ -49,6 +49,45 @@ const reviewStyles = StyleSheet.create({
   },
 });
 
+const ActionButtons = ({ repository, handleDelete }) => {
+  const navigate = useNavigate();
+
+  return (
+    <View style={reviewStyles.actionButtonContainer}>
+      <View style={reviewStyles.actionButton}>
+        <Button
+          text="View repository"
+          style={reviewStyles.actionButton}
+          onPress={() => navigate(`/${repository.id}`)}
+        ></Button>
+      </View>
+      <View style={reviewStyles.actionButton}>
+        <Button
+          text="Delete review"
+          red={true}
+          style={reviewStyles.actionButton}
+          onPress={() =>
+            Alert.alert(
+              'Delete Review',
+              'Are you sure you want to delete this review?',
+              [
+                {
+                  text: 'Cancel',
+                  style: 'cancel',
+                },
+                {
+                  text: 'Delete',
+                  onPress: () => handleDelete(),
+                },
+              ]
+            )
+          }
+        ></Button>
+      </View>
+    </View>
+  );
+};
+
 const ReviewItem = ({
   review,
   isHeaderRepoName,
@@ -58,7 +97,7 @@ const ReviewItem = ({
   const username = review.node.user?.username;
   const repositoryName = review.node.repository?.name;
   const { id, text, rating, createdAt, repository } = review.node;
-  const navigate = useNavigate();
+
   const [mutate, result] = useMutation(DELETE_REVIEW);
 
   const handleDelete = async () => {
@@ -74,6 +113,7 @@ const ReviewItem = ({
             {rating}
           </Text>
         </View>
+
         <View style={reviewStyles.reviewTextContainer}>
           <Text fontWeight="bold">
             {isHeaderRepoName ? repositoryName : username}
@@ -84,39 +124,9 @@ const ReviewItem = ({
           <Text style={reviewStyles.reviewBody}>{text}</Text>
         </View>
       </View>
+
       {showActionButtons ? (
-        <View style={reviewStyles.actionButtonContainer}>
-          <View style={reviewStyles.actionButton}>
-            <Button
-              text="View repository"
-              style={reviewStyles.actionButton}
-              onPress={() => navigate(`/${repository.id}`)}
-            ></Button>
-          </View>
-          <View style={reviewStyles.actionButton}>
-            <Button
-              text="Delete review"
-              red={true}
-              style={reviewStyles.actionButton}
-              onPress={() =>
-                Alert.alert(
-                  'Delete Review',
-                  'Are you sure you want to delete this review?',
-                  [
-                    {
-                      text: 'Cancel',
-                      style: 'cancel',
-                    },
-                    {
-                      text: 'Delete',
-                      onPress: () => handleDelete(),
-                    },
-                  ]
-                )
-              }
-            ></Button>
-          </View>
-        </View>
+        <ActionButtons repository={repository} handleDelete={handleDelete} />
       ) : null}
     </View>
   );

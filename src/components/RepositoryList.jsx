@@ -4,7 +4,6 @@ import RepositoryItem from './RepositoryItem';
 import useRepositories from '../hooks/useRepositories';
 import ItemSeparator from './ItemSeparator';
 import {
-  Button,
   Icon,
   Menu,
   Modal,
@@ -12,7 +11,7 @@ import {
   Portal,
   Searchbar,
 } from 'react-native-paper';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Text from './Text';
 import { useDebounce } from 'use-debounce';
 
