@@ -7,7 +7,14 @@ import ReviewItem from './ReviewItem';
 
 const SingleRepositoryView = () => {
   const { repositoryId } = useParams();
-  const { repository } = useRepository(repositoryId);
+  const { repository, fetchMore } = useRepository({
+    repositoryId,
+    first: 4,
+  });
+
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   return repository ? (
     <FlatList
@@ -21,6 +28,7 @@ const SingleRepositoryView = () => {
           <ItemSeparator />
         </>
       )}
+      onEndReached={onEndReach}
     />
   ) : null;
 };

@@ -4,10 +4,9 @@ import { GET_REPOSITORIES } from '../graphql/queries';
 const useRepositories = (variables) => {
   let orderBy;
   let orderDirection;
-  const sortOrder = variables.sortOrder;
   const searchKeyword = variables.searchKeyword;
 
-  switch (sortOrder) {
+  switch (variables.sortOrder) {
     case 'HIGHEST_RATED':
       orderBy = 'RATING_AVERAGE';
       orderDirection = 'DESC';
